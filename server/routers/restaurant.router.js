@@ -5,4 +5,6 @@ const router = express.Router();
 // POST http://localhost:5000/api/v1/restaurant
 router.post("/", restaurantController.create);
 
+router.push("/", restaurantController.update);
+
 export default router;
