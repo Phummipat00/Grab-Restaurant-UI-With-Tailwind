@@ -2,7 +2,9 @@ import React from "react";
 
 const Card = (props) => {
   const handleDelete = async (id) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this restaurant?");
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this restaurant?"
+    );
     if (!isConfirmed) return;
 
     try {
