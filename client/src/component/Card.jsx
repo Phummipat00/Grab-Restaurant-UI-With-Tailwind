@@ -8,9 +8,12 @@ const Card = (props) => {
     if (!isConfirmed) return;
 
     try {
-      const response = await fetch("http://localhost:3000/restaurants/" + id, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/v1/restaurant" + id,
+        {
+          method: "DELETE",
+        }
+      );
       if (response.ok) {
         alert("Restaurant deleted successfully!");
         window.location.reload();

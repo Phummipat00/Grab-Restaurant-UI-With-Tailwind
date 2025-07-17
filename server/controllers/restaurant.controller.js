@@ -2,6 +2,7 @@ import e from "express";
 import Restaurant from "../models/restaurant.model.js";
 
 const restaurantController = {};
+
 //Create and Save a new restaurant
 restaurantController.create = async (req, res) => {
   const { title, type, img } = req.body;
@@ -40,7 +41,7 @@ restaurantController.create = async (req, res) => {
 //update
 restaurantController.update = async (req, res) => {
   const id = req.params.id; // แก้จาก is เป็น id
-  const { name, type, imageUrl } = req.body;
+  const { title, type, img } = req.body;
 
   if (!name && !type && !imageUrl) {
     res.status(400).send({ message: "No fields provided for update" });
@@ -49,7 +50,7 @@ restaurantController.update = async (req, res) => {
 
   try {
     const [num] = await Restaurant.update(
-      { name, type, imageUrl },
+      { title, type, img },
       {
         where: { id: id },
       }
@@ -71,6 +72,56 @@ restaurantController.update = async (req, res) => {
   }
 };
 
-//delete
+//Delete
+restaurantController.deleteById = async (req, res) => {
+  const id = req.params.id;
+  if (!id) {
+    res.status(404).send({ message: "Id id Missing" });
+    return;
+  }
+
+  await Restaurant.destroy({ where: { id } }).then((num) => {
+    if (num === 1) {
+      res.send({ message: "Restaurant was deleted sucessfully!" });
+    } else {
+      res.status({
+        message:
+          "Cannot update restaurant with id " +
+          id +
+          ".Maybe restaurant was not found or req.body is empty .",
+      });
+    }
+  });
+};
+
+restaurantController.getById = async (req, res) => {
+  const id = req.params.id;
+  await Restaurant.findByPk(id)
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({ message: "No found Restaurant with id " + id });
+      } else {
+        res.send(data);
+      }
+    })
+    .catch((error) => {
+      res
+        .status(500)
+        .send({ message: error.message || "Something error" + id });
+    });
+};
+
+restaurantController.getAll = async (req, res) => {
+  await Restaurant.findAll()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message:
+          error.message || "Something error while retrieving restaurants",
+      });
+    });
+};
 
 export default restaurantController;

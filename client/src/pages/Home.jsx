@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Restaurants from "../components/Restaurants";
+import Restaurants from "../component/Restaurant";
 const Home = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [filetedRestaurants, SetFilterRestaurants] = useState([]);
@@ -19,7 +19,7 @@ const Home = () => {
   };
   useEffect(() => {
     //cal api: getAllRestaurants
-    fetch("http://localhost:3000/restaurants")
+    fetch("http://localhost:5000/api/v1/restaurant")
       .then((res) => {
         //convert to json format
         console.log(res);

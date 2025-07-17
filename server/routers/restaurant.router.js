@@ -5,6 +5,12 @@ const router = express.Router();
 // POST http://localhost:5000/api/v1/restaurant
 router.post("/", restaurantController.create);
 
-router.push("/", restaurantController.update);
+router.put("/:id", restaurantController.update);
+
+router.get("/:id", restaurantController.getById);
+
+router.get("/", restaurantController.getAll);
+
+router.delete("/:id", restaurantController.deleteById);
 
 export default router;
